@@ -1,0 +1,20 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "bunny-hopper-of-skyrim-ng",
+    "version-string": "1.0.0",
+    "port-version": 0,
+    "description": "A port of BunnyHopperOfSkyrim to CommonlibSSE-NG",
+    "license": "MIT",
+    "features": {
+        "plugin": {
+            "description": "Build the SKSE plugin.",
+          "dependencies": [
+            "commonlibsse-ng",
+            "nlohmann-json"
+          ]
+        }
+    },
+    "default-features": [
+        "plugin"
+    ]
+}
