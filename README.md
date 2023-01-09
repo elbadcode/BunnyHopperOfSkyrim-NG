@@ -1,8 +1,8 @@
 # BunnyHopperOfSkyrim
 
 ## Build Dependencies
-* [Json2Settings](https://github.com/Ryan-rsm-McKenzie/Json2Settings)
-* [CommonLibSSE](https://github.com/Ryan-rsm-McKenzie/CommonLibSSE)
+* ~[Json2Settings](https://github.com/Ryan-rsm-McKenzie/Json2Settings)~ Now included as header-only library
+* [CommonLibSSE-NG](https://github.com/CharmedBaryon/CommonLibSSE-NG)
 
 ## End User Dependencies
 * [SKSE64](https://skse.silverlock.org/)
