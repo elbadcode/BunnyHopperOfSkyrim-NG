@@ -19,7 +19,8 @@ void StrafeController::Reset() noexcept
 
 void StrafeController::Update() noexcept
 {
-	diff = CalcAngle2D(Vector{ player->GetPositionX(), player->GetPositionY() }, pos);
+    auto player_pos = Vector{player->GetPositionX(), player->GetPositionY()};
+	diff = CalcAngle2D(player_pos, pos);
 }
 
 
@@ -55,8 +56,6 @@ void StrafeController::GainStrafeBonud()
 		speed->SpeedUp(strafeBonus);
 		// GFx Notify("StrafeBonus")
 
-#ifdef DUMP
-		_DMESSAGE("Strafe-Bonus %f %f", angle, strafeBonus);
-#endif
+		logger::debug("Strafe-Bonus {} {}", angle, strafeBonus);
 	}
 }

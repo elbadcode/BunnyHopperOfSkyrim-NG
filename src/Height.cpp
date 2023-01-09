@@ -25,9 +25,7 @@ void HeightController::Update() noexcept
 
 	bhk->jumpHeight = currJumpHeight;
 
-#ifdef DUMP
-	_DMESSAGE("Height-Bonus %f", currJumpHeight);
-#endif
+	logger::debug("Height-Bonus {}", currJumpHeight);
 }
 
 
@@ -99,9 +97,7 @@ void HeightController::TryHeightLaunch() const
 	speed->SpeedUp(heightBonus);
 	// GFx Notify("HeightLaunch")
 	
-#ifdef DUMP
-	_DMESSAGE("Height-Launch %f %f", fabsf(diff), heightBonus);
-#endif
+	logger::debug("Height-Launch {} {}", fabsf(diff), heightBonus);
 }
 
 

@@ -8,14 +8,14 @@
 class HeightController final : public IController
 {
 public:
-	enum class State : UInt8
+	enum class State : uint8_t
 	{
 		kNone = 1 << 0,
 		kStair = 1 << 1,
 		kLaunch = 1 << 2
 	};
 
-	STATIC_ASSERT(sizeof(State) == 0x1);
+	static_assert(sizeof(State) == 0x1);
 
 	static HeightController* GetSingleton()
 	{

@@ -31,7 +31,7 @@ namespace Events
 
 			if (!sinked) {
 				graphManager->graphs.front()->GetEventSource<RE::BSAnimationGraphEvent>()->AddEventSink(a_sink);
-				_MESSAGE("Registered animation event handler");
+				logger::info("Registered animation event handler");
 
 				return true;
 			}

@@ -27,9 +27,7 @@ void CrouchController::GainCrouchBonus()
 
 		Reset();
 
-#ifdef DUMP
-		_DMESSAGE("Crouch-Bonus %f", CrouchBonus);
-#endif
+		logger::debug("Crouch-Bonus {}", CrouchBonus);
 		// GFx Notify("CrouchBonus")
 	} else {
 		// GFx Notify("CrouchCooldown")

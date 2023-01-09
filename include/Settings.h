@@ -47,5 +47,5 @@ public:
 	Settings() = delete;
 
 private:
-	static constexpr char* FILE_NAME = "Data\\SKSE\\Plugins\\BunnyHopperOfSkyrim.json";
+	static constexpr const char* FILE_NAME = "Data\\SKSE\\Plugins\\BunnyHopperOfSkyrim.json";
 };

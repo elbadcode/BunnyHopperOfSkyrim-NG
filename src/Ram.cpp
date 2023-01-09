@@ -14,7 +14,7 @@ void RamController::Reset() noexcept
 void RamController::Update() noexcept
 {
 	const auto cell = player->GetParentCell();
-	auto cellRefset = cell->references;
+	auto cellRefset = cell->GetRuntimeData().references;
 	for (const auto& ref : cellRefset) {
 		const auto actor = RE::TESForm::LookupByID<RE::Actor>(ref->GetFormID());
 		if (actor && !actor->IsPlayer() && !actor->IsPlayerRef()) {
@@ -77,7 +77,7 @@ void RamController::ApplyForce(RE::Actor* a_target, const float a_mult) const
 	
 	speed->SpeedUp(-*Settings::ramSpeedReduction * (speed->GetCurrSpeed() - *Settings::ramSpeedThreshold)); // For every action, there is an equal and opposite reaction
 
-	a_target->SetActorValue(RE::ActorValue::kHealth, a_target->GetActorValue(RE::ActorValue::kHealth) - damage);
+	a_target->AsActorValueOwner()->SetActorValue(RE::ActorValue::kHealth, a_target->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealth) - damage);
 
 	char command[48];
 	std::sprintf(command, "Player.PushActorAway %lx %d", a_target->GetFormID(), static_cast<int>(strength));
@@ -86,7 +86,7 @@ void RamController::ApplyForce(RE::Actor* a_target, const float a_mult) const
 	script->SetCommand(command);
 	script->CompileAndRun(player);
 	
-	if (a_target->GetActorValue(RE::ActorValue::kHealth) <= 0) {
+	if (a_target->AsActorValueOwner()->GetActorValue(RE::ActorValue::kHealth) <= 0) {
 		a_target->KillImpl(player, 0, true, true);
 	}
 }

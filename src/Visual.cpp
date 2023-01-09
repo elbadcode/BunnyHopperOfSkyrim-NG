@@ -62,7 +62,5 @@ void VisualController::ApplyEffect()
 		}
 	}
 	
-#ifdef DUMP
-	_DMESSAGE("Visual-ApplyEffect");
-#endif
+	logger::debug("Visual-ApplyEffect");
 }

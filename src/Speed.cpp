@@ -6,7 +6,7 @@ void SpeedController::Reset() noexcept
 {
 	Update();
 
-	player->SetActorValue(RE::ActorValue::kSpeedMult, baseSpeed);
+	player->AsActorValueOwner()->SetActorValue(RE::ActorValue::kSpeedMult, baseSpeed);
 
 	currSpeed = baseSpeed;
 }
@@ -15,7 +15,7 @@ void SpeedController::Reset() noexcept
 void SpeedController::Update() noexcept
 {
 	if (baseSpeed == -1) {
-		baseSpeed = player->GetActorValue(RE::ActorValue::kSpeedMult);
+		baseSpeed = player->AsActorValueOwner()->GetActorValue(RE::ActorValue::kSpeedMult);
 		currSpeed = baseSpeed;
 	}
 
@@ -23,7 +23,7 @@ void SpeedController::Update() noexcept
 		currSpeed = *Settings::maxSpeed;
 	}
 
-	player->SetActorValue(RE::ActorValue::kSpeedMult, currSpeed);
+	player->AsActorValueOwner()->SetActorValue(RE::ActorValue::kSpeedMult, currSpeed);
 }
 
 
@@ -33,7 +33,5 @@ void SpeedController::SpeedUp(const float a_speedOffset)
 	currSpeed += speedBoost + a_speedOffset;
 	Update();
 
-#ifdef DUMP
-	_DMESSAGE("Speed-Speed %f", speedBoost + a_speedOffset);
-#endif
+	logger::debug("Speed-Speed {}", speedBoost + a_speedOffset);
 }

@@ -47,4 +47,4 @@ private:
 	void Reset() noexcept override;
 	void Update() noexcept override;
 };
-STATIC_ASSERT(sizeof(RamController) == 0x20);
+static_assert(sizeof(RamController) == 0x20);

@@ -63,60 +63,50 @@ namespace
 	}
 }
 
+void InitializeLogging() {
+    auto path = logger::log_directory();
+    if (!path) {
+        util::report_and_fail("Unable to lookup SKSE logs directory.");
+    }
+    *path /= SKSE::PluginDeclaration::GetSingleton()->GetName();
+    *path += L".log";
 
-extern "C"
-{
-bool SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
-{
-	SKSE::Logger::OpenRelative(FOLDERID_Documents, L"\\My Games\\Skyrim Special Edition\\SKSE\\BunnyHopperOfSkyrim.log");
-	SKSE::Logger::SetPrintLevel(SKSE::Logger::Level::kDebugMessage);
-	SKSE::Logger::SetFlushLevel(SKSE::Logger::Level::kDebugMessage);
-	SKSE::Logger::UseLogStamp(true);
+    std::shared_ptr<spdlog::logger> log;
+    if (IsDebuggerPresent()) {
+        log = std::make_shared<spdlog::logger>("Global", std::make_shared<spdlog::sinks::msvc_sink_mt>());
+    } else {
+        log = std::make_shared<spdlog::logger>(
+            "Global", std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true));
+    }
+    log->set_level(spdlog::level::level_enum::info);
+    log->flush_on(spdlog::level::level_enum::trace);
 
-	_MESSAGE("BunnyHopperOfSkyrim v%s", BHOS_VERSION_VERSTRING);
-
-	a_info->infoVersion = SKSE::PluginInfo::kVersion;
-	a_info->name = "BunnyHopperOfSkyrim";
-	a_info->version = BHOS_VERSION_MAJOR;
-
-	if (a_skse->IsEditor()) {
-		_FATALERROR("Loaded in editor, marking as incompatible!\n");
-		return false;
-	}
-
-	const auto ver = a_skse->RuntimeVersion();
-	if (ver <= SKSE::RUNTIME_1_5_39) {
-		_FATALERROR("Unsupported runtime version %s!", ver.GetString().c_str());
-		return false;
-	}
-
-	return true;
+    spdlog::set_default_logger(std::move(log));
+    spdlog::set_pattern("%s(%#): [%l] %v");
 }
 
 
-bool SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
+SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
 {
-	_MESSAGE("BunnyHopperOfSkyrim loaded");
+  InitializeLogging();
+	logger::info("BunnyHopperOfSkyrim loaded");
 	
-	if (!Init(a_skse)) {
-		return false;
-	}
+	Init(a_skse);
 
 	const auto messaging = SKSE::GetMessagingInterface();
 	if (messaging->RegisterListener("SKSE", MessageHandler)) {
-		_MESSAGE("Messaging interface registration successful");
+		logger::info("Messaging interface registration successful");
 	} else {
-		_FATALERROR("Messaging interface registration failed!\n");
+		logger::critical("Messaging interface registration failed!\n");
 		return false;
 	}
 
 	if (Settings::LoadSettings()) {
-		_MESSAGE("Settings successfully loaded");
+		logger::info("Settings successfully loaded");
 	} else {
-		_FATALERROR("Settings failed to load!\n");
+		logger::critical("Settings failed to load!\n");
 		return false;
 	}
 
 	return true;
-}
 }
