@@ -1,4 +1,4 @@
-# BunnyHopperOfSkyrim
+# BunnyHopperOfSkyrim-NG
 
 ## Build Dependencies
 * ~[Json2Settings](https://github.com/Ryan-rsm-McKenzie/Json2Settings)~ Now included as header-only library
