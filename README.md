@@ -1,3 +1,5 @@
+prev build works on 1.5.97, 1.6.64, and VR. On 1.6+ when used with TDM there is a guaranteed crash due to both plugins accessing same memory address. possibly this is due to a new issue with tdm, or could just be a change in the game itself changing the addresses needed here and by coincidence the old incorrect address is a valid address tdm by coincidence uses. either way needs an update and needed some refactoring. Unfortunately I have had terrible success trying to build SKSE/CLib plugins so not sure when an update will happen
+
 # BunnyHopperOfSkyrim-NG
 
 ## Build Dependencies
